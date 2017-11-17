@@ -60,3 +60,8 @@ obj-$(CONFIG_ECHO)		+= echo/
 obj-$(CONFIG_VEXPRESS_SYSCFG)	+= vexpress-syscfg.o
 obj-$(CONFIG_CXL_BASE)		+= cxl/
 obj-$(CONFIG_UID_CPUTIME) += uid_cputime.o
+obj-y               += com3mode.o
+obj-y               += gpio_mio.o
+obj-y               += mx6check.o
+obj-y               += pwm-buzzer.o
+
