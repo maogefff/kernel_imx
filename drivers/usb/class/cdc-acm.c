@@ -1482,6 +1482,14 @@ skip_countries:
 		usb_clear_halt(usb_dev, usb_sndbulkpipe(usb_dev, epwrite->bEndpointAddress));
 	}
 
+#if 1 //Added by Quectel
+//For USB Auto Suspend
+    if((usb_dev->descriptor.idVendor == 0x1519) && (usb_dev->descriptor.idProduct == 0x0020)) {
+        pm_runtime_set_autosuspend_delay(&usb_dev->dev, 3000);
+        usb_enable_autosuspend(usb_dev);
+    }
+#endif
+
 	return 0;
 alloc_fail8:
 	if (acm->country_codes) {

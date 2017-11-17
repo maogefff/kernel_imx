@@ -33,8 +33,8 @@
 #define DRIVER_DESC	"Opticon USB barcode to serial driver (1D)"
 
 static const struct usb_device_id id_table[] = {
-	{ USB_DEVICE(0x065a, 0x0009) },
-	{ },
+    { USB_DEVICE(0x065a, 0x0009) },
+    { },
 };
 MODULE_DEVICE_TABLE(usb, id_table);
 

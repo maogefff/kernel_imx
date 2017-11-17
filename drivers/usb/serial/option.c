@@ -1813,6 +1813,17 @@ static const struct usb_device_id option_ids[] = {
 	{ USB_DEVICE_INTERFACE_CLASS(0x2020, 0x4000, 0xff) },                /* OLICARD300 - MT6225 */
 	{ USB_DEVICE(INOVIA_VENDOR_ID, INOVIA_SEW858) },
 	{ USB_DEVICE(VIATELECOM_VENDOR_ID, VIATELECOM_PRODUCT_CDS7) },
+    #if 1 //Added by Quectel
+    { USB_DEVICE(0x05C6, 0x9090) }, /* Quectel UC15 */
+    { USB_DEVICE(0x05C6, 0x9003) }, /* Quectel UC20 */
+    { USB_DEVICE(0x2C7C, 0x0125) }, /* Quectel EC25/EC20 R2.0 */
+    { USB_DEVICE(0x2C7C, 0x0121) }, /* Quectel EC21 */
+    { USB_DEVICE(0x05C6, 0x9215) }, /* Quectel EC20 */
+    { USB_DEVICE(0x2C7C, 0x0191) }, /* Quectel EG91 */
+    { USB_DEVICE(0x2C7C, 0x0195) }, /* Quectel EG95 */
+    { USB_DEVICE(0x2C7C, 0x0306) }, /* Quectel EG06/EP06/EM06 */
+    { USB_DEVICE(0x2C7C, 0x0296) }, /* Quectel BG96 */
+    #endif
 	{ } /* Terminating entry */
 };
 MODULE_DEVICE_TABLE(usb, option_ids);
@@ -1847,6 +1858,9 @@ static struct usb_serial_driver option_1port_device = {
 #ifdef CONFIG_PM
 	.suspend           = usb_wwan_suspend,
 	.resume            = usb_wwan_resume,
+#if 1 //Added by Quectel
+    .reset_resume      = usb_wwan_resume,
+#endif
 #endif
 };
 
@@ -1889,7 +1903,31 @@ static int option_probe(struct usb_serial *serial,
 	    dev_desc->idProduct == cpu_to_le16(SAMSUNG_PRODUCT_GT_B3730) &&
 	    iface_desc->bInterfaceClass != USB_CLASS_CDC_DATA)
 		return -ENODEV;
+#if 1 //Added by Quectel
+//For USB Auto Suspend
+    if (serial->dev->descriptor.idVendor == cpu_to_le16(0x05C6) &&
+            serial->dev->descriptor.idProduct == cpu_to_le16(0x9090)) {
+        pm_runtime_set_autosuspend_delay(&serial->dev->dev, 3000);
+        usb_enable_autosuspend(serial->dev);
+    }
 
+    if (serial->dev->descriptor.idVendor == cpu_to_le16(0x05C6) &&
+            serial->dev->descriptor.idProduct == cpu_to_le16(0x9003)) {
+        pm_runtime_set_autosuspend_delay(&serial->dev->dev, 3000);
+        usb_enable_autosuspend(serial->dev);
+    }
+
+    if  (serial->dev->descriptor.idVendor == cpu_to_le16(0x05C6) &&
+            serial->dev->descriptor.idProduct == cpu_to_le16(0x9215)) {
+        pm_runtime_set_autosuspend_delay(&serial->dev->dev, 3000);
+        usb_enable_autosuspend(serial->dev);
+        }
+
+    if (serial->dev->descriptor.idVendor == cpu_to_le16(0x2C7C)) {
+        pm_runtime_set_autosuspend_delay(&serial->dev->dev, 3000);
+        usb_enable_autosuspend(serial->dev);
+    }
+#endif
 	/* Store the blacklist info so we can use it during attach. */
 	usb_set_serial_data(serial, (void *)blacklist);
 
