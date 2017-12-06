@@ -477,6 +477,7 @@
 		PLLVDD-supply = <&reg_audio>;
 		SPKVDD1-supply = <&reg_audio>;
 		SPKVDD2-supply = <&reg_audio>;
+		spk-mono;
 		amic-mono;
 		gpio-cfg = <
 			0x0000 /* 0:Default */

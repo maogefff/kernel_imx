@@ -157,10 +157,8 @@ static struct reg_default wm8962_reg[] = {
 
 	{ 47, 0x0000 },   /* R47    - Thermal Shutdown Status */
 	{ 48, 0x8027 },   /* R48    - Additional Control (4) */
-	{ 49, 0x0010 },   /* R49    - Class D Control 1 */
-
-	{ 51, 0x0003 },   /* R51    - Class D Control 2 */
-
+	{ 49, 0x00D0 },   /* R49    - Class D Control 1 */
+	{ 51, 0x0007 },   /* R51    - Class D Control 2 */
 	{ 56, 0x0506 },   /* R56    - Clocking 4 */
 	{ 57, 0x0000 },   /* R57    - DAC DSP Mixing (1) */
 	{ 58, 0x0000 },   /* R58    - DAC DSP Mixing (2) */
@@ -2202,7 +2200,7 @@ SND_SOC_DAPM_MIXER("Speaker Mixer", WM8962_MIXER_ENABLES, 1, 0,
 		   spkmixl, ARRAY_SIZE(spkmixl)),
 SND_SOC_DAPM_MUX_E("Speaker PGA", WM8962_PWR_MGMT_2, 4, 0, &spkoutl_mux,
 		   out_pga_event, SND_SOC_DAPM_POST_PMU),
-SND_SOC_DAPM_PGA("Speaker Output", WM8962_CLASS_D_CONTROL_1, 7, 0, NULL, 0),
+SND_SOC_DAPM_PGA("Speaker Output", WM8962_CLASS_D_CONTROL_1, 6, 0, NULL, 0),
 SND_SOC_DAPM_OUTPUT("SPKOUT"),
 };
 
